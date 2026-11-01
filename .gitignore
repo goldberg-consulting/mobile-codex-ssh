@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.egg-info/
+wheelhouse/
+.DS_Store
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p8
+*.p12
+id_rsa*
+id_ed25519*
+known_hosts*
+.install-state.json
+*.log

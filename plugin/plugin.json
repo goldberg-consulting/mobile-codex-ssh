@@ -1,0 +1,21 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "ssh-client",
+  "version": "0.1.0",
+  "description": "An SSH plugin for mobile Codex. Run commands from your iPhone through a linked Mac.",
+  "author": {"name": "Goldberg Consulting"},
+  "keywords": ["ssh", "mobile", "codex"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "SSH Client",
+        "shortDescription": "SSH through your connected Mac",
+        "longDescription": "Connect to any SSH hostname, IP address, or configured alias using your Mac’s OpenSSH keys and agent. Works in Codex iPhone sessions connected to this Mac; the Mac must remain awake and online.",
+        "developerName": "Goldberg Consulting",
+        "category": "Developer Tools",
+        "capabilities": ["Read", "Write"],
+        "defaultPrompt": ["SSH to my server and check its status"]
+      }
+    }
+  }
+}

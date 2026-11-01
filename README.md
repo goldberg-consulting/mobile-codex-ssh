@@ -60,15 +60,16 @@ guarantee that a new plugin SSH session can reuse its sudo authorization.
 ### Mobile password prompt compatibility
 
 A separate, password-free URL prompt test displayed a popup on an iPhone and
-returned `action: accept`, but Safari did not open. This verifies the consent
-prompt only; it does not verify browser navigation or password authentication.
-The result is specific to that tested setup, not a claim about every iOS client.
+returned `action: accept`, but Safari did not open. Tapping an ordinary link in
+the chat did open the test page on the iPhone. This verifies manual navigation
+as a fallback; it does not verify password authentication. These results are
+specific to the tested setup, not a claim about every iOS client.
 
 [Codex documents MCP URL elicitation](https://learn.chatgpt.com/docs/app-server),
 but an accepted request is not proof that an external page opened. A future
-password flow would need a separately authenticated HTTPS page and independent
-confirmation that the external operation completed. This release does not
-include that page or any password-entry support.
+password flow can offer an explicit chat link to a separately authenticated
+HTTPS page, with independent confirmation that the external operation completed.
+This release does not include that page or any password-entry support.
 
 ## Command behavior
 

@@ -15,3 +15,6 @@ id_ed25519*
 known_hosts*
 .install-state.json
 *.log
+*.sock
+secure.json
+*.plist

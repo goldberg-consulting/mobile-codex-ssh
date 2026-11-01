@@ -35,13 +35,14 @@ class InstallerTests(unittest.TestCase):
                 contextlib.redirect_stdout(io.StringIO()),
             ):
                 with self.assertRaises(subprocess.CalledProcessError):
-                    installer.main()
-                installer.main()
+                    installer.main([])
+                installer.main([])
                 for relative in (".local/share/codex-ssh-client", ".codex/local-marketplaces/ssh-client"):
                     state = json.loads((home / relative / ".install-state.json").read_text())
                     self.assertTrue(state["complete"])
                 with self.assertRaises(SystemExit):
-                    installer.main()
+                    installer.main([])
+                installer.main(["--upgrade"])
 
     def test_refuses_unrelated_existing_directory(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -56,7 +57,7 @@ class InstallerTests(unittest.TestCase):
                 patch.object(installer.subprocess, "run") as run,
             ):
                 with self.assertRaises(SystemExit):
-                    installer.main()
+                    installer.main(["--upgrade"])
                 run.assert_not_called()
             self.assertEqual(sentinel.read_text(), "Existing user content")
 

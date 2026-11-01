@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "ssh-client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "An SSH plugin for mobile Codex. Run commands from your iPhone through a linked Mac.",
   "author": {"name": "Goldberg Consulting"},
   "keywords": ["ssh", "mobile", "codex"],

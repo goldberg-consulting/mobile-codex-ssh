@@ -18,9 +18,12 @@ async def smoke(host: str | None) -> None:
     )
     async with Client(parameters, mode="legacy") as client:
         tools = (await client.list_tools()).tools
-        assert [tool.name for tool in tools] == ["ssh_exec"]
-        assert not tools[0].annotations.read_only_hint
-        assert tools[0].annotations.destructive_hint
+        by_name = {tool.name: tool for tool in tools}
+        assert set(by_name) == {"ssh_exec", "ssh_start_secure", "ssh_secure_status", "ssh_secure_cancel"}
+        assert not by_name["ssh_exec"].annotations.read_only_hint
+        assert by_name["ssh_exec"].annotations.destructive_hint
+        assert by_name["ssh_start_secure"].annotations.destructive_hint
+        assert by_name["ssh_secure_status"].annotations.read_only_hint
         print("Legacy stdio MCP discovery: passed")
         if host:
             result = await client.call_tool("ssh_exec", {

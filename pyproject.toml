@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "codex-ssh-client"
-version = "0.1.0"
+version = "0.2.0"
 description = "An SSH plugin for mobile Codex through a linked Mac"
 requires-python = ">=3.11"
-dependencies = ["mcp==2.3.0"]
+dependencies = ["mcp==2.3.0", "httpx2==2.16.0", "starlette==1.10.0", "uvicorn==0.54.0"]
 authors = [{name = "Goldberg Consulting"}]
 
 [project.urls]
@@ -16,6 +16,7 @@ Issues = "https://github.com/goldberg-consulting/mobile-codex-ssh/issues"
 
 [project.scripts]
 codex-ssh-client = "codex_ssh.server:main"
+codex-ssh-helper = "codex_ssh.helper:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -5,6 +5,7 @@ other user settings. Does not change SSH configuration, keys, or remote hosts.
 """
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 import shutil
@@ -12,7 +13,13 @@ import subprocess
 import sys
 
 
-def main() -> None:
+VERSION = "0.2.0"
+
+
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--upgrade", action="store_true", help="Upgrade a recognized existing installation")
+    arguments = parser.parse_args(argv)
     source = Path(__file__).resolve().parent
     home = Path.home()
     runtime = home / ".local/share/codex-ssh-client"
@@ -21,7 +28,7 @@ def main() -> None:
     codex = shutil.which("codex")
     if not codex:
         raise SystemExit("Codex CLI must be available on PATH.")
-    incomplete = {"installer": "codex-ssh-client", "version": "0.1.0", "complete": False}
+    incomplete = {"installer": "codex-ssh-client", "version": VERSION, "complete": False}
     for destination in (runtime, marketplace):
         marker = destination / ".install-state.json"
         if destination.exists():
@@ -29,7 +36,11 @@ def main() -> None:
                 state = json.loads(marker.read_text())
             except (OSError, ValueError):
                 state = None
-            if state != incomplete:
+            upgradeable = (arguments.upgrade and isinstance(state, dict)
+                           and state.get("installer") == "codex-ssh-client"
+                           and state.get("version") in {"0.1.0", VERSION}
+                           and isinstance(state.get("complete"), bool))
+            if destination.is_symlink() or (state != incomplete and not upgradeable):
                 raise SystemExit(f"Refusing to overwrite an existing installation or directory: {destination}")
     for destination in (runtime, marketplace):
         destination.mkdir(parents=True, exist_ok=True)
@@ -37,7 +48,7 @@ def main() -> None:
     for directory in ("src", "tests"):
         shutil.copytree(source / directory, runtime / directory, dirs_exist_ok=True,
                         ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
-    for name in ("README.md", "pyproject.toml", "requirements.lock", "smoke_test.py"):
+    for name in ("README.md", "pyproject.toml", "requirements.lock", "smoke_test.py", "setup_secure.py"):
         shutil.copy2(source / name, runtime / name)
     subprocess.run([sys.executable, "-m", "venv", str(runtime / ".venv")], check=True)
     python = str(runtime / ".venv/bin/python")

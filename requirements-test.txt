@@ -1,0 +1,2 @@
+# Optional local-only SSH server fixture; never part of the plugin runtime.
+paramiko==4.0.0

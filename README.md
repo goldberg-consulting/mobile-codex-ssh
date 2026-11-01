@@ -57,6 +57,19 @@ For commands already authorized to run without a prompt, use `sudo -n` so sudo
 fails promptly if it needs authentication. A previous terminal login does not
 guarantee that a new plugin SSH session can reuse its sudo authorization.
 
+### Mobile password prompt compatibility
+
+A separate, password-free URL prompt test displayed a popup on an iPhone and
+returned `action: accept`, but Safari did not open. This verifies the consent
+prompt only; it does not verify browser navigation or password authentication.
+The result is specific to that tested setup, not a claim about every iOS client.
+
+[Codex documents MCP URL elicitation](https://learn.chatgpt.com/docs/app-server),
+but an accepted request is not proof that an external page opened. A future
+password flow would need a separately authenticated HTTPS page and independent
+confirmation that the external operation completed. This release does not
+include that page or any password-entry support.
+
 ## Command behavior
 
 The `ssh_exec` tool accepts `host`, `command`, optional `user`, optional `port`,
